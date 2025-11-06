@@ -5,21 +5,92 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace SistemaIncidenciasAguaPotable.Clases
 {
     public class ListaUsuarios
     {
+        private ConexionBD conexionBD;
         private Nodo cabeza;
 
         public ListaUsuarios()
         {
             cabeza = null;
+            conexionBD = new ConexionBD();
+        }
+        public void ListarUsuariosDesdeBD()
+        {
+            try
+            {
+                conexionBD.AbrirConexion();
+                string query = "SELECT Id, Nombres, Apellidos, DNI, Contraseña, Rol FROM Usuarios";
+                SqlCommand comando = new SqlCommand(query, conexionBD.ObtenerConexion());
+                SqlDataReader reader = comando.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Usuario usuario = new Usuario(
+                        reader["Id"].ToString() != null ? Convert.ToInt32(reader["Id"]) : 0, // Asegurarse de convertir a int
+                        reader["Nombres"].ToString(),
+                        reader["Apellidos"].ToString(),
+                        reader["DNI"].ToString(),
+                        reader["Contraseña"].ToString(),
+                        reader["Rol"].ToString()
+                    );
+                    AgregarUsuarioDesdeBD(usuario);
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar usuarios: " + ex.Message);
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+        }
+        public void GuardarUsuarioEnBD(Usuario usuario)
+        {
+            try
+            {
+                conexionBD.AbrirConexion();
+                string query = "INSERT INTO Usuarios (Nombres, Apellidos, DNI, Contraseña, Rol) VALUES (@Nombres, @Apellidos, @DNI, @Contraseña, @Rol)";
+                SqlCommand comando = new SqlCommand(query, conexionBD.ObtenerConexion());
+                comando.Parameters.AddWithValue("@Nombres", usuario.Nombres);
+                comando.Parameters.AddWithValue("@Apellidos", usuario.Apellidos);
+                comando.Parameters.AddWithValue("@DNI", usuario.DNI);
+                comando.Parameters.AddWithValue("@Contraseña", usuario.Contraseña);
+                comando.Parameters.AddWithValue("@Rol", usuario.Rol);
+                comando.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al guardar el usuario: " + ex.Message);
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+        }
+        public Usuario BuscarUsuarioPorDNI(string dni)
+        {
+            Nodo actual = cabeza;
+            while (actual != null)
+            {
+                if (actual.Usuario != null && actual.Usuario.DNI == dni)
+                {
+                    return actual.Usuario;
+                }
+                actual = actual.siguiente;
+            }
+            return null;
         }
 
         public void AgregarUsuario(Usuario nuevo)
         {
-            if(nuevo == null)
+            if (nuevo == null)
             {
                 MessageBox.Show("El usuario no puede ser nulo.");
                 return; // Salir del método si el usuario es nulo
@@ -49,7 +120,26 @@ namespace SistemaIncidenciasAguaPotable.Clases
                 }
                 temporal.siguiente = nuevoNodo;
             }
-            
+        }
+        public void AgregarUsuarioDesdeBD(Usuario usuario)
+        {
+            if (usuario == null) return;
+
+            Nodo nuevoNodo = new Nodo(usuario);
+
+            if (cabeza == null)
+            {
+                cabeza = nuevoNodo;
+            }
+            else
+            {
+                Nodo actual = cabeza;
+                while (actual.siguiente != null)
+                {
+                    actual = actual.siguiente;
+                }
+                actual.siguiente = nuevoNodo;
+            }
         }
         public Usuario BuscarUsuario(string Dni, string contraseña)
         {
@@ -79,6 +169,20 @@ namespace SistemaIncidenciasAguaPotable.Clases
                 actual = actual.siguiente;
             }
             return false; // Usuario no encontrado
+        }
+
+        public Usuario BuscarUsuarioPorId(int id)
+        {
+            Nodo actual = cabeza;
+            while (actual != null)
+            {
+                if (actual.Usuario != null && actual.Usuario.Id == id)
+                {
+                    return actual.Usuario;
+                }
+                actual = actual.siguiente;
+            }
+            return null;
         }
     }
 }

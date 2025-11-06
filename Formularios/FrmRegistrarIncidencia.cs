@@ -1,12 +1,5 @@
 ﻿using SistemaIncidenciasAguaPotable.Clases;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SistemaIncidenciasAguaPotable.Formularios
@@ -47,7 +40,7 @@ namespace SistemaIncidenciasAguaPotable.Formularios
                 cboSector.Focus();
                 return;
             }
-            
+
             if (string.IsNullOrWhiteSpace(txtDescripcion.Text))
             {
                 MessageBox.Show("Por favor, ingrese una descripción del problema.");
@@ -58,13 +51,14 @@ namespace SistemaIncidenciasAguaPotable.Formularios
             string tipo = cboTipo.SelectedItem.ToString();
             string sector = cboSector.SelectedItem.ToString();
             string descripcion = txtDescripcion.Text.Trim();
-            string fecha = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+            DateTime fecha = DateTime.Now;
 
-            listaIncidencias.AgregarIncidencia(tipo, sector, descripcion, fecha, usuarioActual);
+            Incidencia incidencia = new Incidencia(tipo, sector, descripcion, "Pendiente", fecha, usuarioActual);
+            listaIncidencias.AgregarIncidenciaBD(incidencia); // Guarda en BD y asigna Id
+            listaIncidencias.AgregarIncidenciaMemoria(incidencia); // Luego la agregas a la lista en memoria
+
 
             MessageBox.Show("Incidencia registrada con éxito.");
-
-            listaIncidencias.ObtenerCabeza();
 
             LimpiarCampos();
         }
@@ -75,6 +69,11 @@ namespace SistemaIncidenciasAguaPotable.Formularios
             cboSector.SelectedIndex = -1;
             txtDescripcion.Clear();
             cboTipo.Focus();
+        }
+
+        private void cboTipo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

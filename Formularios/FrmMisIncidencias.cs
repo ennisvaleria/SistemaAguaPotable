@@ -30,7 +30,7 @@ namespace SistemaIncidenciasAguaPotable.Formularios
 
         private void FrmMisIncidencias_Load(object sender, EventArgs e)
         {
-
+            listaIncidencias.MostrarIncidenciasEnDGV(dgvIncidencias, usuarioActual);
         }
 
         

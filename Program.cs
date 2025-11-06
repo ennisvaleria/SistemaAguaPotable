@@ -19,10 +19,17 @@ namespace SistemaIncidenciasAguaPotable
             Application.SetCompatibleTextRenderingDefault(false);
             
             ListaUsuarios listaUsuarios = new ListaUsuarios();
-            ListaIncidencias listaIncidencias = new ListaIncidencias();
+            listaUsuarios.ListarUsuariosDesdeBD();
 
-            Usuario admin = new Usuario("Ennis Valeria", "Correa Albitres", "60492144", "159123", "Administrador"); // Usuario administrador por defecto
-            listaUsuarios.AgregarUsuario(admin); // Agregar el usuario administrador a la lista de usuarios
+            ListaIncidencias listaIncidencias = new ListaIncidencias();
+            listaIncidencias.CargarIncidenciasDesdeBD(listaUsuarios);
+            if(!listaUsuarios.ExisteUsuario("60492144"))
+            {
+                Usuario admin = new Usuario("Ennis Valeria", "Correa Albitres", "60492144", "159123", "Administrador"); // Usuario administrador por defecto
+                listaUsuarios.AgregarUsuario(admin);
+                listaUsuarios.GuardarUsuarioEnBD(admin);
+            }
+           
 
             Application.Run(new Formularios.FrmLogin(listaUsuarios, listaIncidencias));
         }

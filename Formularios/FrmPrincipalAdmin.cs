@@ -23,8 +23,10 @@ namespace SistemaIncidenciasAguaPotable.Formularios
             this.listaUsuarios = Usuario;
             this.listaIncidencias = listaIncidencias;
             this.usuarioActual = usuario;
-            Pila pilaIncidencias = listaIncidencias.convertirAPila();
-            pilaIncidencias.MostrarIncidenciaEnDGV(dgvIncidencias);
+
+            this.pilaIncidencias = listaIncidencias.convertirAPila();
+            this.pilaIncidencias.MostrarIncidenciaEnDGV(dgvIncidencias);
+
             lblTitulo.Text = $"Bienvenido, " + usuario.Nombres + " " + usuario.Apellidos + ":)";
         }
 

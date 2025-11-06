@@ -1,19 +1,12 @@
 ﻿using SistemaIncidenciasAguaPotable.Clases;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SistemaIncidenciasAguaPotable.Formularios
 {
     public partial class FrmLogin : Form
     {
-        private ListaUsuarios listaUsuarios;
+        private ListaUsuarios listaUsuarios; 
         private ListaIncidencias listaIncidencias;
         public FrmLogin(ListaUsuarios usuarios, ListaIncidencias incidencias)
         {

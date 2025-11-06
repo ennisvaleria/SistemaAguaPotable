@@ -30,7 +30,7 @@ namespace SistemaIncidenciasAguaPotable.Formularios
         {
             if (listaIncidencias != null && dgvIncidencias != null)
             {
-                listaIncidencias.MostrarIncidenciasEnDGV(dgvIncidencias); // Mostrar las incidencias en el DataGridView
+                listaIncidencias.MostrarIncidenciasEnDGV(dgvIncidencias, usuarioActual); // Mostrar las incidencias en el DataGridView
             }
             
             if (dgvIncidencias.Columns["Fecha Reporte"] != null)
@@ -38,7 +38,6 @@ namespace SistemaIncidenciasAguaPotable.Formularios
                 dgvIncidencias.Columns["Fecha Reporte"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm";// Formatear la columna de fecha y hora
 
             }
-
 
         }
 
@@ -60,7 +59,7 @@ namespace SistemaIncidenciasAguaPotable.Formularios
         {
             FrmLogin login = new FrmLogin(listaUsuarios, listaIncidencias);// Crear una nueva instancia del formulario de login
             login.Show();// Mostrar el formulario de login
-            this.Close();// Cerrar el formulario actual
+            this.Hide();// Cerrar el formulario actual
         }
 
         private void btnVerMisIncidencias_Click(object sender, EventArgs e)

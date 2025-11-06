@@ -62,10 +62,8 @@ namespace SistemaIncidenciasAguaPotable.Formularios
 
             Usuario nuevoUsuario = new Usuario(nombres, apellidos, Dni, contraseña, "Ciudadano");
             listaUsuarios.AgregarUsuario(nuevoUsuario);
+            listaUsuarios.GuardarUsuarioEnBD(nuevoUsuario);
 
-            MessageBox.Show("Registro exitoso.");
-            
-           
             loginForm.Show();// Mostrar el formulario de login
             this.Hide();// Ocultar el formulario actual
         }
