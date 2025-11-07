@@ -209,6 +209,7 @@
             this.Controls.Add(this.dgvIncidencias);
             this.Controls.Add(this.lblTitulo);
             this.Name = "FrmPrincipalAdmin";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FrmPrincipalAdmin";
             this.Load += new System.EventHandler(this.FrmPrincipalAdmin_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvIncidencias)).EndInit();

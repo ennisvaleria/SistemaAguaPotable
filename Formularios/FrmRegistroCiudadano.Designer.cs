@@ -137,6 +137,7 @@
             this.Controls.Add(this.txtApellidos);
             this.Controls.Add(this.txtNombres);
             this.Name = "FrmRegistroCiudadano";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FrmRegistroCiudadano";
             this.Load += new System.EventHandler(this.FrmRegistroCiudadano_Load);
             this.ResumeLayout(false);

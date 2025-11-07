@@ -24,13 +24,16 @@ namespace SistemaIncidenciasAguaPotable.Formularios
             this.usuarioActual = usuario; //    Asignar el usuario actual al atributo
             lblTitulo.Text = $"Bienvenido, " + usuario.Nombres + " " + usuario.Apellidos + ":)";
 
+            listaIncidencias.MostrarIncidenciasEnDGV(dgvIncidencias);
+
         }
 
         private void FrmPrincipalCiudadano_Load(object sender, EventArgs e)
         {
+           
             if (listaIncidencias != null && dgvIncidencias != null)
             {
-                listaIncidencias.MostrarIncidenciasEnDGV(dgvIncidencias, usuarioActual); // Mostrar las incidencias en el DataGridView
+                listaIncidencias.MostrarIncidenciasEnDGV(dgvIncidencias); // Mostrar las incidencias en el DataGridView
             }
             
             if (dgvIncidencias.Columns["Fecha Reporte"] != null)
@@ -39,6 +42,13 @@ namespace SistemaIncidenciasAguaPotable.Formularios
 
             }
 
+            Timer timer = new Timer();
+            timer.Interval = 5000; // Actualizar cada 5 segundos
+            timer.Tick += (s, ev) =>
+            {
+                listaIncidencias.MostrarIncidenciasEnDGV(dgvIncidencias);
+            };
+            timer.Start();
         }
 
        
@@ -47,6 +57,7 @@ namespace SistemaIncidenciasAguaPotable.Formularios
         {
             FrmRegistrarIncidencia frm = new FrmRegistrarIncidencia(listaIncidencias, usuarioActual);// Crear una nueva instancia del formulario de registro de incidencias
             frm.ShowDialog();
+
             listaIncidencias.MostrarIncidenciasEnDGV(dgvIncidencias);// Actualizar la vista de incidencias
         }
 

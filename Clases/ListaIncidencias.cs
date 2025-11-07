@@ -153,9 +153,6 @@ namespace SistemaIncidenciasAguaPotable.Clases
 
             return actualizado;
         }
-        public Nodo ObtenerCabeza() => cabeza;
-
-
         public void ExportarTXT(string rutaArchivo)
         {
             using (StreamWriter sw = new StreamWriter(rutaArchivo)) // Abrir el archivo para escribir

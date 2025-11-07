@@ -56,16 +56,21 @@ namespace SistemaIncidenciasAguaPotable.Clases
             try
             {
                 conexionBD.AbrirConexion();
-                string query = "INSERT INTO Usuarios (Nombres, Apellidos, DNI, Contraseña, Rol) VALUES (@Nombres, @Apellidos, @DNI, @Contraseña, @Rol)";
+                string query = @"
+                                 INSERT INTO Usuarios (Nombres, Apellidos, DNI, Contraseña, Rol)
+                                 OUTPUT INSERTED.Id
+                                 VALUES (@Nombres, @Apellidos, @DNI, @Contraseña, @Rol);";
                 SqlCommand comando = new SqlCommand(query, conexionBD.ObtenerConexion());
                 comando.Parameters.AddWithValue("@Nombres", usuario.Nombres);
                 comando.Parameters.AddWithValue("@Apellidos", usuario.Apellidos);
                 comando.Parameters.AddWithValue("@DNI", usuario.DNI);
                 comando.Parameters.AddWithValue("@Contraseña", usuario.Contraseña);
                 comando.Parameters.AddWithValue("@Rol", usuario.Rol);
-                comando.ExecuteNonQuery();
+
+                int nuevoId = Convert.ToInt32(comando.ExecuteScalar());
+                usuario.Id = nuevoId;
             }
-            catch (Exception ex)
+            catch (Exception ex)    
             {
                 MessageBox.Show("Error al guardar el usuario: " + ex.Message);
             }

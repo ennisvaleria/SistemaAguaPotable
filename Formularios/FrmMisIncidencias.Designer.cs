@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             this.dgvIncidencias = new System.Windows.Forms.DataGridView();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.ColumID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumFechaReporte = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumTipo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumSector = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumDescripcion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumEstado = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.dgvIncidencias)).BeginInit();
             this.SuspendLayout();
             // 
@@ -116,6 +116,7 @@
             this.ClientSize = new System.Drawing.Size(903, 503);
             this.Controls.Add(this.dgvIncidencias);
             this.Name = "FrmMisIncidencias";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FrmMisIncidencias";
             this.Load += new System.EventHandler(this.FrmMisIncidencias_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvIncidencias)).EndInit();

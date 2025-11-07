@@ -30,10 +30,6 @@
         {
             this.lblTitulo = new System.Windows.Forms.Label();
             this.dgvIncidencias = new System.Windows.Forms.DataGridView();
-            this.btnRegistrar = new System.Windows.Forms.Button();
-            this.btnActualizar = new System.Windows.Forms.Button();
-            this.btnCerrarSesion = new System.Windows.Forms.Button();
-            this.btnVerMisIncidencias = new System.Windows.Forms.Button();
             this.ColumId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumFechaReporte = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumTipo = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -43,6 +39,10 @@
             this.ColumNombres = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumApellidos = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumDNI = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnRegistrar = new System.Windows.Forms.Button();
+            this.btnActualizar = new System.Windows.Forms.Button();
+            this.btnCerrarSesion = new System.Windows.Forms.Button();
+            this.btnVerMisIncidencias = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvIncidencias)).BeginInit();
             this.SuspendLayout();
             // 
@@ -80,46 +80,6 @@
             this.dgvIncidencias.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvIncidencias.Size = new System.Drawing.Size(1170, 415);
             this.dgvIncidencias.TabIndex = 1;
-            // 
-            // btnRegistrar
-            // 
-            this.btnRegistrar.Location = new System.Drawing.Point(11, 522);
-            this.btnRegistrar.Name = "btnRegistrar";
-            this.btnRegistrar.Size = new System.Drawing.Size(129, 32);
-            this.btnRegistrar.TabIndex = 2;
-            this.btnRegistrar.Text = "Registrar";
-            this.btnRegistrar.UseVisualStyleBackColor = true;
-            this.btnRegistrar.Click += new System.EventHandler(this.btnRegistrar_Click);
-            // 
-            // btnActualizar
-            // 
-            this.btnActualizar.Location = new System.Drawing.Point(170, 522);
-            this.btnActualizar.Name = "btnActualizar";
-            this.btnActualizar.Size = new System.Drawing.Size(129, 32);
-            this.btnActualizar.TabIndex = 3;
-            this.btnActualizar.Text = "Actualizar";
-            this.btnActualizar.UseVisualStyleBackColor = true;
-            this.btnActualizar.Click += new System.EventHandler(this.btnActualizar_Click);
-            // 
-            // btnCerrarSesion
-            // 
-            this.btnCerrarSesion.Location = new System.Drawing.Point(922, 531);
-            this.btnCerrarSesion.Name = "btnCerrarSesion";
-            this.btnCerrarSesion.Size = new System.Drawing.Size(129, 32);
-            this.btnCerrarSesion.TabIndex = 4;
-            this.btnCerrarSesion.Text = "Cerrar Sesión";
-            this.btnCerrarSesion.UseVisualStyleBackColor = true;
-            this.btnCerrarSesion.Click += new System.EventHandler(this.btnCerrarSesion_Click);
-            // 
-            // btnVerMisIncidencias
-            // 
-            this.btnVerMisIncidencias.Location = new System.Drawing.Point(326, 522);
-            this.btnVerMisIncidencias.Name = "btnVerMisIncidencias";
-            this.btnVerMisIncidencias.Size = new System.Drawing.Size(179, 32);
-            this.btnVerMisIncidencias.TabIndex = 5;
-            this.btnVerMisIncidencias.Text = "Historial de reportes";
-            this.btnVerMisIncidencias.UseVisualStyleBackColor = true;
-            this.btnVerMisIncidencias.Click += new System.EventHandler(this.btnVerMisIncidencias_Click);
             // 
             // ColumId
             // 
@@ -193,6 +153,46 @@
             this.ColumDNI.ReadOnly = true;
             this.ColumDNI.Width = 125;
             // 
+            // btnRegistrar
+            // 
+            this.btnRegistrar.Location = new System.Drawing.Point(11, 522);
+            this.btnRegistrar.Name = "btnRegistrar";
+            this.btnRegistrar.Size = new System.Drawing.Size(129, 32);
+            this.btnRegistrar.TabIndex = 2;
+            this.btnRegistrar.Text = "Registrar";
+            this.btnRegistrar.UseVisualStyleBackColor = true;
+            this.btnRegistrar.Click += new System.EventHandler(this.btnRegistrar_Click);
+            // 
+            // btnActualizar
+            // 
+            this.btnActualizar.Location = new System.Drawing.Point(170, 522);
+            this.btnActualizar.Name = "btnActualizar";
+            this.btnActualizar.Size = new System.Drawing.Size(129, 32);
+            this.btnActualizar.TabIndex = 3;
+            this.btnActualizar.Text = "Actualizar";
+            this.btnActualizar.UseVisualStyleBackColor = true;
+            this.btnActualizar.Click += new System.EventHandler(this.btnActualizar_Click);
+            // 
+            // btnCerrarSesion
+            // 
+            this.btnCerrarSesion.Location = new System.Drawing.Point(922, 531);
+            this.btnCerrarSesion.Name = "btnCerrarSesion";
+            this.btnCerrarSesion.Size = new System.Drawing.Size(129, 32);
+            this.btnCerrarSesion.TabIndex = 4;
+            this.btnCerrarSesion.Text = "Cerrar Sesión";
+            this.btnCerrarSesion.UseVisualStyleBackColor = true;
+            this.btnCerrarSesion.Click += new System.EventHandler(this.btnCerrarSesion_Click);
+            // 
+            // btnVerMisIncidencias
+            // 
+            this.btnVerMisIncidencias.Location = new System.Drawing.Point(326, 522);
+            this.btnVerMisIncidencias.Name = "btnVerMisIncidencias";
+            this.btnVerMisIncidencias.Size = new System.Drawing.Size(179, 32);
+            this.btnVerMisIncidencias.TabIndex = 5;
+            this.btnVerMisIncidencias.Text = "Historial de reportes";
+            this.btnVerMisIncidencias.UseVisualStyleBackColor = true;
+            this.btnVerMisIncidencias.Click += new System.EventHandler(this.btnVerMisIncidencias_Click);
+            // 
             // FrmPrincipalCiudadano
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -205,6 +205,7 @@
             this.Controls.Add(this.dgvIncidencias);
             this.Controls.Add(this.lblTitulo);
             this.Name = "FrmPrincipalCiudadano";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FrmPrincipalCiudadano";
             this.Load += new System.EventHandler(this.FrmPrincipalCiudadano_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvIncidencias)).EndInit();

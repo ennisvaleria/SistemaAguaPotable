@@ -15,12 +15,15 @@ namespace SistemaIncidenciasAguaPotable.Formularios
     {
         private ListaIncidencias listaIncidencias;// Atributo para manejar la lista de incidencias
         private Usuario usuarioActual; //Atributo para manejar el usuario actual
+        private Pila pilaIncidencias;
         public FrmMisIncidencias(ListaIncidencias listaIncidencias, Usuario usuario) // Constructor que recibe la lista de incidencias y el usuario actual
         {
             InitializeComponent();
             this.listaIncidencias = listaIncidencias;
             this.usuarioActual = usuario;
-            listaIncidencias.MostrarIncidenciasEnDGV(dgvIncidencias, usuarioActual);
+
+            this.pilaIncidencias = listaIncidencias.convertirAPila();
+            this.pilaIncidencias.MostrarIncidenciaEnDGV(dgvIncidencias, usuarioActual);
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -30,7 +33,6 @@ namespace SistemaIncidenciasAguaPotable.Formularios
 
         private void FrmMisIncidencias_Load(object sender, EventArgs e)
         {
-            listaIncidencias.MostrarIncidenciasEnDGV(dgvIncidencias, usuarioActual);
         }
 
         

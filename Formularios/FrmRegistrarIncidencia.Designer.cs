@@ -138,6 +138,7 @@
             this.Controls.Add(this.cboTipo);
             this.Controls.Add(this.lblTitulo);
             this.Name = "FrmRegistrarIncidencia";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FrmRegistrarIncidencia";
             this.Load += new System.EventHandler(this.FrmRegistrarIncidencia_Load);
             this.ResumeLayout(false);

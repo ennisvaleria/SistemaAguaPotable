@@ -32,7 +32,13 @@ namespace SistemaIncidenciasAguaPotable.Formularios
 
         private void FrmPrincipalAdmin_Load(object sender, EventArgs e)
         {
-
+            Timer timer = new Timer();
+            timer.Interval = 5000; // Actualiza cada 5 segundos el frm
+            timer.Tick += (s, ev) =>
+            {
+                listaIncidencias.MostrarIncidenciasEnDGV(dgvIncidencias);
+            };
+            timer.Start();
         }
         
         private void btnActualizarEstado_Click(object sender, EventArgs e)
