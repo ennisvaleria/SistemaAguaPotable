@@ -22,6 +22,8 @@ namespace SistemaIncidenciasAguaPotable.Formularios
             this.listaIncidencias = listaIncidencias;
             this.usuarioActual = usuario;
 
+            dgvIncidencias.CellFormatting += dgvIncidencias_CellFormatting;
+
             this.pilaIncidencias = listaIncidencias.convertirAPila();
             this.pilaIncidencias.MostrarIncidenciaEnDGV(dgvIncidencias, usuarioActual);
         }
@@ -33,8 +35,34 @@ namespace SistemaIncidenciasAguaPotable.Formularios
 
         private void FrmMisIncidencias_Load(object sender, EventArgs e)
         {
+            
         }
 
-        
+        private void dgvIncidencias_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (dgvIncidencias.Columns[e.ColumnIndex].Name == "Estado" && e.Value != null)
+            {
+                string estado = e.Value.ToString().Trim();
+
+                e.CellStyle.BackColor = Color.White;
+                e.CellStyle.ForeColor = Color.Black;
+
+                if (estado.Equals("Resuelto", StringComparison.OrdinalIgnoreCase))
+                {
+                    e.CellStyle.BackColor = Color.LightGreen;
+                    e.CellStyle.ForeColor = Color.Black;
+                }
+                else if (estado.Equals("Pendiente", StringComparison.OrdinalIgnoreCase))
+                {
+                    e.CellStyle.BackColor = Color.LightCoral;
+                    e.CellStyle.ForeColor = Color.White;
+                }
+                else if (estado.Equals("En proceso", StringComparison.OrdinalIgnoreCase))
+                {
+                    e.CellStyle.BackColor = Color.Khaki;
+                    e.CellStyle.ForeColor = Color.Black;
+                }
+            }
+        }
     }
 }

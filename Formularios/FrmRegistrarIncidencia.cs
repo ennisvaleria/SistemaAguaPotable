@@ -28,16 +28,10 @@ namespace SistemaIncidenciasAguaPotable.Formularios
 
         private void btnRegistrar_Click(object sender, EventArgs e)
         {
-            if (cboTipo.SelectedIndex == -1)
+            if (string.IsNullOrWhiteSpace(txtCalle.Text))
             {
-                MessageBox.Show("Por favor, seleccione un tipo de incidencia.");
-                cboTipo.Focus();
-                return;
-            }
-            if (cboSector.SelectedIndex == -1)
-            {
-                MessageBox.Show("Por favor, seleccione un sector.");
-                cboSector.Focus();
+                MessageBox.Show("Por favor, ingrese la calle.");
+                txtCalle.Focus();
                 return;
             }
 
@@ -49,11 +43,11 @@ namespace SistemaIncidenciasAguaPotable.Formularios
             }
 
             string tipo = cboTipo.SelectedItem.ToString();
-            string sector = cboSector.SelectedItem.ToString();
+            string calle = txtCalle.Text.Trim();
             string descripcion = txtDescripcion.Text.Trim();
             DateTime fecha = DateTime.Now;
 
-            Incidencia incidencia = new Incidencia(tipo, sector, descripcion, "Pendiente", fecha, usuarioActual);
+            Incidencia incidencia = new Incidencia(tipo, calle, descripcion, "Pendiente", fecha, usuarioActual);
             listaIncidencias.AgregarIncidenciaBD(incidencia); // Guarda en BD y asigna Id
             listaIncidencias.AgregarIncidenciaMemoria(incidencia); // Luego la agregas a la lista en memoria
 
@@ -65,13 +59,17 @@ namespace SistemaIncidenciasAguaPotable.Formularios
 
         private void LimpiarCampos()
         {
-            cboTipo.SelectedIndex = -1;
-            cboSector.SelectedIndex = -1;
+            txtCalle.Clear();
             txtDescripcion.Clear();
             cboTipo.Focus();
         }
 
         private void cboTipo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
         {
 
         }

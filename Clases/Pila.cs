@@ -22,12 +22,6 @@ namespace SistemaIncidenciasAguaPotable.Clases
             nuevoNodo.siguiente = inicio;
             inicio = nuevoNodo;
         }
-
-        public Nodo getInicio()
-        {
-            return inicio;
-        }
-
         public void MostrarIncidenciaEnDGV(DataGridView dgv, Usuario usuarioFiltrado = null)
         {
 
@@ -51,7 +45,7 @@ namespace SistemaIncidenciasAguaPotable.Clases
                                 actual.Incidencia.Id,
                                 actual.Incidencia.FechaReporte,
                                 actual.Incidencia.Tipo,
-                                actual.Incidencia.Sector,
+                                actual.Incidencia.Calle,
                                 actual.Incidencia.Descripcion,
                                 actual.Incidencia.Estado,
                                 actual.Incidencia.UsuarioReportante.Nombres,

@@ -26,7 +26,7 @@ namespace SistemaIncidenciasAguaPotable.Clases
         }
 
         public Usuario(string nombres, string apellidos, string dni, string contraseña, string rol)
-        : this(null, nombres, apellidos, dni, contraseña, rol) { }
+        : this(null, nombres, apellidos, dni, contraseña, rol) { } 
 
     }
 }

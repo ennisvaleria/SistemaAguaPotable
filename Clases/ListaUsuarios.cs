@@ -19,6 +19,7 @@ namespace SistemaIncidenciasAguaPotable.Clases
             cabeza = null;
             conexionBD = new ConexionBD();
         }
+
         public void ListarUsuariosDesdeBD()
         {
             try
@@ -70,7 +71,7 @@ namespace SistemaIncidenciasAguaPotable.Clases
                 int nuevoId = Convert.ToInt32(comando.ExecuteScalar());
                 usuario.Id = nuevoId;
             }
-            catch (Exception ex)    
+            catch (Exception ex)
             {
                 MessageBox.Show("Error al guardar el usuario: " + ex.Message);
             }
@@ -79,26 +80,13 @@ namespace SistemaIncidenciasAguaPotable.Clases
                 conexionBD.CerrarConexion();
             }
         }
-        public Usuario BuscarUsuarioPorDNI(string dni)
-        {
-            Nodo actual = cabeza;
-            while (actual != null)
-            {
-                if (actual.Usuario != null && actual.Usuario.DNI == dni)
-                {
-                    return actual.Usuario;
-                }
-                actual = actual.siguiente;
-            }
-            return null;
-        }
 
         public void AgregarUsuario(Usuario nuevo)
         {
-            if (nuevo == null)
+            if (DniEsInvalido(nuevo.DNI))
             {
-                MessageBox.Show("El usuario no puede ser nulo.");
-                return; // Salir del método si el usuario es nulo
+                MessageBox.Show("El DNI ingresado no es válido. No puede contener todos los dígitos iguales.");
+                return;
             }
             Nodo actual = cabeza;
             while (actual != null)
@@ -152,7 +140,7 @@ namespace SistemaIncidenciasAguaPotable.Clases
             while (actual != null)
             {
                 if (actual.Usuario != null &&
-                    actual.Usuario.DNI == Dni && 
+                    actual.Usuario.DNI == Dni &&
                     actual.Usuario.Contraseña == contraseña)
                 {
                     return actual.Usuario;// Usuario encontrado
@@ -165,7 +153,7 @@ namespace SistemaIncidenciasAguaPotable.Clases
         public bool ExisteUsuario(string dni)
         {
             Nodo actual = cabeza;
-            while (actual != null)                                      
+            while (actual != null)
             {
                 if (actual.Usuario != null && actual.Usuario.DNI == dni)
                 {
@@ -188,6 +176,15 @@ namespace SistemaIncidenciasAguaPotable.Clases
                 actual = actual.siguiente;
             }
             return null;
+        }
+        public bool DniEsInvalido(string dni)
+        {
+            // 1. Debe tener 8 dígitos
+            if (dni.Length != 8 || !dni.All(char.IsDigit))
+                return true;
+
+            // 2. Todos los dígitos iguales → inválido
+            return dni.Distinct().Count() == 1;
         }
     }
 }

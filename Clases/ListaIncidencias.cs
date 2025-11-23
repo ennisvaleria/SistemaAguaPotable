@@ -28,8 +28,9 @@ namespace SistemaIncidenciasAguaPotable.Clases
         {
             try
             {
+                cabeza = null;
                 conexionBD.AbrirConexion();
-                string query = "SELECT Id, Tipo, Sector, Descripcion, Estado, FechaReporte, UsuarioReportanteId FROM Incidencias";
+                string query = "SELECT Id, Tipo, Calle, Descripcion, Estado, FechaReporte, UsuarioReportanteId FROM Incidencias";
                 SqlCommand comando = new SqlCommand(query, conexionBD.ObtenerConexion());
                 SqlDataReader reader = comando.ExecuteReader();
 
@@ -43,7 +44,7 @@ namespace SistemaIncidenciasAguaPotable.Clases
                         Incidencia incidencia = new Incidencia(
                             id: Convert.ToInt32(reader["Id"]),
                             tipo: reader["Tipo"].ToString(),
-                            sector: reader["Sector"].ToString(),
+                            calle: reader["Calle"].ToString(),
                             descripcion: reader["Descripcion"].ToString(),
                             estado: reader["Estado"].ToString(),
                             fecha: Convert.ToDateTime(reader["FechaReporte"].ToString()),
@@ -83,19 +84,18 @@ namespace SistemaIncidenciasAguaPotable.Clases
             }
         }
 
-
         public void AgregarIncidenciaBD(Incidencia incidencia)
         {
             try
             {
                 conexionBD.AbrirConexion();
                 string query = @"
-                                INSERT INTO Incidencias (Tipo, Sector, Descripcion, Estado, FechaReporte, UsuarioReportanteId)
+                                INSERT INTO Incidencias (Tipo, Calle, Descripcion, Estado, FechaReporte, UsuarioReportanteId)
                                 OUTPUT INSERTED.Id
-                                VALUES (@Tipo, @Sector, @Descripcion, @Estado, @FechaReporte, @UsuarioReportanteId);";
+                                VALUES (@Tipo, @Calle, @Descripcion, @Estado, @FechaReporte, @UsuarioReportanteId);";
                 SqlCommand comando = new SqlCommand(query, conexionBD.ObtenerConexion());
                 comando.Parameters.AddWithValue("@Tipo", incidencia.Tipo);
-                comando.Parameters.AddWithValue("@Sector", incidencia.Sector);
+                comando.Parameters.AddWithValue("@Calle", incidencia.Calle);
                 comando.Parameters.AddWithValue("@Descripcion", incidencia.Descripcion);
                 comando.Parameters.AddWithValue("@Estado", incidencia.Estado);
                 comando.Parameters.AddWithValue("@FechaReporte", incidencia.FechaReporte);
@@ -114,7 +114,7 @@ namespace SistemaIncidenciasAguaPotable.Clases
             }
         }
 
-        public bool ActualizarEstado(int id, string nuevoEstado)
+        public bool ActualizarEstadoBD(int id, string nuevoEstado)
         {
             Nodo actual = cabeza;
             bool actualizado = false;
@@ -160,9 +160,9 @@ namespace SistemaIncidenciasAguaPotable.Clases
                 Nodo actual = cabeza;
                 while (actual != null)
                 {
-                    sw.WriteLine($"ID: {actual.Incidencia.Id}"); // Escribir los detalles de la incidencia
+                    sw.WriteLine($"ID: {actual.Incidencia.Id}"); 
                     sw.WriteLine($"Tipo: {actual.Incidencia.Tipo}");
-                    sw.WriteLine($"Sector: {actual.Incidencia.Sector}");
+                    sw.WriteLine($"Calle: {actual.Incidencia.Calle}");
                     sw.WriteLine($"Descripción: {actual.Incidencia.Descripcion}");
                     sw.WriteLine($"Estado: {actual.Incidencia.Estado}");
                     sw.WriteLine($"Fecha: {actual.Incidencia.FechaReporte}");
@@ -182,7 +182,7 @@ namespace SistemaIncidenciasAguaPotable.Clases
                 dgv.Columns.Add("Id", "ID");
                 dgv.Columns.Add("FechaReporte", "Fecha Reporte");
                 dgv.Columns.Add("Tipo", "Tipo");
-                dgv.Columns.Add("Sector", "Sector");
+                dgv.Columns.Add("Calle", "Calle");
                 dgv.Columns.Add("Descripcion", "Descripción");
                 dgv.Columns.Add("Estado", "Estado");
                 dgv.Columns.Add("Nombres", "Nombres");
@@ -204,7 +204,7 @@ namespace SistemaIncidenciasAguaPotable.Clases
                         actual.Incidencia.Id,
                         actual.Incidencia.FechaReporte,
                         actual.Incidencia.Tipo,
-                        actual.Incidencia.Sector,
+                        actual.Incidencia.Calle,
                         actual.Incidencia.Descripcion,
                         actual.Incidencia.Estado,
                         actual.Incidencia.UsuarioReportante.Nombres,
@@ -227,6 +227,148 @@ namespace SistemaIncidenciasAguaPotable.Clases
                 actual = actual.siguiente;
             }
             return pila;
+        }
+
+        public void BuscarPorDNIEnMemoria(DataGridView dgv, string dni)
+        {
+
+            if (string.IsNullOrWhiteSpace(dni) || dni == "Ingrese un DNI...")
+            {
+                MostrarIncidenciasEnDGV(dgv);
+                return;
+            }
+
+            dgv.Rows.Clear();
+
+            Nodo actual = cabeza;
+            bool encontrado = false;
+
+            while (actual != null)
+            {
+                Incidencia incidencia = actual.Incidencia;
+
+                if (incidencia.UsuarioReportante.DNI == dni)
+                {
+                    dgv.Rows.Add(
+                        incidencia.Id,
+                        incidencia.FechaReporte,
+                        incidencia.Tipo,
+                        incidencia.Calle,
+                        incidencia.Descripcion,
+                        incidencia.Estado,
+                        incidencia.UsuarioReportante.Nombres,
+                        incidencia.UsuarioReportante.Apellidos,
+                        incidencia.UsuarioReportante.DNI
+                    );
+                    encontrado = true;
+                }
+
+                actual = actual.siguiente;
+            }
+
+            if (!encontrado)
+                MessageBox.Show("No se encontraron incidencias con ese DNI.");
+
+            dgv.ClearSelection();
+        }
+
+        public void BuscarPorDNIBD(DataGridView dgv, string dni)
+        {
+            if (string.IsNullOrWhiteSpace(dni) || dni == "Ingrese un DNI...")
+            {
+                MostrarIncidenciasEnDGV(dgv);
+                
+                return;
+            }
+
+            try
+            {
+                conexionBD.AbrirConexion();
+
+                string query = @"
+                                SELECT I.Id, I.Tipo, I.Calle, I.Descripcion, I.Estado, I.FechaReporte,
+                                       U.Nombres, U.Apellidos, U.DNI
+                                FROM Incidencias AS I
+                                INNER JOIN Usuarios AS U ON I.UsuarioReportanteId = U.Id
+                                WHERE U.DNI = @DNI";
+
+                SqlCommand comando = new SqlCommand(query, conexionBD.ObtenerConexion());
+                comando.Parameters.AddWithValue("@DNI", dni);
+                SqlDataReader reader = comando.ExecuteReader();
+
+                dgv.Rows.Clear();
+
+                bool encontrado = false;
+
+                while (reader.Read())
+                {
+                    encontrado = true;
+
+                    dgv.Rows.Add(
+                        reader["Id"],
+                        Convert.ToDateTime(reader["FechaReporte"]),
+                        reader["Tipo"].ToString(),
+                        reader["Calle"].ToString(),
+                        reader["Descripcion"].ToString(),
+                        reader["Estado"].ToString(),
+                        reader["Nombres"].ToString(),
+                        reader["Apellidos"].ToString(),
+                        reader["DNI"].ToString()
+                    );
+                }
+
+                reader.Close();
+
+                if (!encontrado)
+                    MessageBox.Show("No se encontraron incidencias con ese DNI.");
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al buscar incidencias en la base de datos: " + ex.Message);
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+
+        }
+        public void BuscarPorDNI(DataGridView dgv, string dni)
+        {
+            dgv.Rows.Clear();
+
+            Nodo actual = cabeza;
+            bool encontrado = false;
+
+            while (actual != null)
+            {
+                Incidencia incidencia = actual.Incidencia;
+
+                if (incidencia.UsuarioReportante.DNI == dni)
+                {
+                    dgv.Rows.Add(
+                        incidencia.Id,
+                        incidencia.FechaReporte,
+                        incidencia.Tipo,
+                        incidencia.Calle,
+                        incidencia.Descripcion,
+                        incidencia.Estado,
+                        incidencia.UsuarioReportante.Nombres,
+                        incidencia.UsuarioReportante.Apellidos,
+                        incidencia.UsuarioReportante.DNI
+                    );
+                    encontrado = true;
+                }
+
+                actual = actual.siguiente;
+            }
+
+            if (!encontrado)
+            {
+                BuscarPorDNIBD(dgv, dni);
+            }
+
+            dgv.ClearSelection();
         }
 
     }

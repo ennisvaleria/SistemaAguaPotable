@@ -29,6 +29,30 @@ namespace SistemaIncidenciasAguaPotable.Formularios
 
         private void FrmRegistroCiudadano_Load(object sender, EventArgs e)
         {
+            txtNombres.Text = "Ingrese sus nombres";
+            txtNombres.ForeColor = Color.Gray;
+
+            txtNombres.Enter += txtDNI_Enter;
+            txtNombres.Leave += txtDNI_Leave;
+
+            txtApellidos.Text = "Ingrese sus apellidos";
+            txtApellidos.ForeColor = Color.Gray;
+
+            txtApellidos.Enter += txtDNI_Enter;
+            txtApellidos.Leave += txtDNI_Leave;
+
+            txtDNI.Text = "Ingrese su DNI";
+            txtDNI.ForeColor = Color.Gray;
+
+            txtDNI.Enter += txtDNI_Enter;
+            txtDNI.Leave += txtDNI_Leave;
+
+            txtContraseña.Text = "Ingrese su contraseña";
+            txtContraseña.ForeColor = Color.Gray;
+            txtContraseña.UseSystemPasswordChar = false;
+
+            txtContraseña.Enter += txtContraseña_Enter;
+            txtContraseña.Leave += txtContraseña_Leave;
 
         }
 
@@ -97,6 +121,85 @@ namespace SistemaIncidenciasAguaPotable.Formularios
             if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
             {
                 e.Handled = true; // Ignorar el carácter si no es válido
+            }
+        }
+
+        private void txtNombres_Enter(object sender, EventArgs e)
+        {
+            if (txtNombres.Text == "Ingrese sus nombres")
+            {
+                txtNombres.Text = "";
+                txtNombres.ForeColor = Color.Black;
+            }
+        }
+
+        private void txtNombres_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtNombres.Text))
+            {
+                txtNombres.Text = "Ingrese sus nombres";
+                txtNombres.ForeColor = Color.Gray;
+            }
+        }
+
+        private void txtApellidos_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtApellidos_Enter(object sender, EventArgs e)
+        {
+            if (txtApellidos.Text == "Ingrese sus apellidos")
+            {
+                txtApellidos.Text = "";
+                txtApellidos.ForeColor = Color.Black;
+            }
+        }
+
+        private void txtApellidos_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtApellidos.Text))
+            {
+                txtApellidos.Text = "Ingrese sus apellidos";
+                txtApellidos.ForeColor = Color.Gray;
+            }
+        }
+
+        private void txtDNI_Enter(object sender, EventArgs e)
+        {
+            if (txtDNI.Text == "Ingrese su DNI")
+            {
+                txtDNI.Text = "";
+                txtDNI.ForeColor = Color.Black;
+            }
+        }
+
+        private void txtDNI_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtDNI.Text))
+            {
+                txtDNI.Text = "Ingrese su DNI";
+                txtDNI.ForeColor = Color.Gray;
+            }
+        }
+
+        private void txtContraseña_Enter(object sender, EventArgs e)
+        {
+            if (txtContraseña.Text == "Ingrese su contraseña")
+            {
+                txtContraseña.Text = "";
+                txtContraseña.ForeColor = Color.Black;
+                txtContraseña.UseSystemPasswordChar = true; // Activar contraseña al escribir
+            }
+        }
+
+        private void txtContraseña_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtContraseña.Text))
+            {
+                txtContraseña.Text = "Ingrese su contraseña";
+                txtContraseña.ForeColor = Color.Gray;
+                txtContraseña.UseSystemPasswordChar = false; // Mostrar el placeholder normalmente
             }
         }
     }

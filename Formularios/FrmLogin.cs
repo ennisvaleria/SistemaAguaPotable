@@ -1,5 +1,6 @@
 ﻿using SistemaIncidenciasAguaPotable.Clases;
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace SistemaIncidenciasAguaPotable.Formularios
@@ -15,6 +16,19 @@ namespace SistemaIncidenciasAguaPotable.Formularios
             listaIncidencias = incidencias;
             txtDNI.MaxLength = 8; // Limitar a 8 caracteres
             txtDNI.KeyPress += txtDNI_KeyPress;
+
+            txtDNI.Text = "Ingrese su DNI";
+            txtDNI.ForeColor = Color.Gray;
+
+            txtDNI.Enter += txtDNI_Enter;
+            txtDNI.Leave += txtDNI_Leave;
+
+            txtContraseña.Text = "Ingrese su contraseña";
+            txtContraseña.ForeColor = Color.Gray;
+            txtContraseña.UseSystemPasswordChar = false;
+
+            txtContraseña.Enter += txtContraseña_Enter;
+            txtContraseña.Leave += txtContraseña_Leave;
         }
 
         private void FrmLogin_Load(object sender, EventArgs e)
@@ -79,6 +93,71 @@ namespace SistemaIncidenciasAguaPotable.Formularios
             {
                 e.Handled = true; // Ignorar el carácter si no es válido
             }
+        }
+
+        private void txtDNI_Enter(object sender, EventArgs e)
+        {
+            if (txtDNI.Text == "Ingrese su DNI")
+            {
+                txtDNI.Text = "";
+                txtDNI.ForeColor = Color.Black;
+            }
+        }
+
+        private void txtDNI_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtDNI.Text))
+            {
+                txtDNI.Text = "Ingrese su DNI";
+                txtDNI.ForeColor = Color.Gray;
+            }
+        }
+
+        private void txtDNI_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtContraseña_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtContraseña_Enter(object sender, EventArgs e)
+        {
+
+            if (txtContraseña.Text == "Ingrese su contraseña")
+            {
+                txtContraseña.Text = "";
+                txtContraseña.ForeColor = Color.Black;
+                txtContraseña.UseSystemPasswordChar = true; // Activar contraseña al escribir
+            }
+
+        }
+
+        private void txtContraseña_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtContraseña.Text))
+            {
+                txtContraseña.Text = "Ingrese su contraseña";
+                txtContraseña.ForeColor = Color.Gray;
+                txtContraseña.UseSystemPasswordChar = false; // Mostrar el placeholder normalmente
+            }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
